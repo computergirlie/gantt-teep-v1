@@ -3,16 +3,16 @@
         "name": "teepv1",
         "displayName": "TEEP v1",
         "guid": "teepv18DD77655738C462AAF0952A5BCB1D02C",
-        "visualClassName": "GanttChart",
+        "visualClassName": "Visual",
         "version": "1.0.0",
-        "description": "",
-        "supportUrl": "",
-        "gitHubUrl": ""
+        "description": "A flexible Gantt implementation for large scale hierarchical organizations",
+        "supportUrl": "https://community.powerbi.com",
+        "gitHubUrl": "https://github.com/ctcimmarrusti/gantt-teep-v1"
     },
     "apiVersion": "5.1.0",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Caleb Cimmarrusti",
+        "email": "cimmarrusti.caleb@gmail.com"
     },
     "assets": {
         "icon": "assets/icon.png"

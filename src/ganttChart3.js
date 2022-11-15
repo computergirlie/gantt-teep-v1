@@ -839,7 +839,7 @@ Label: <strong>${label}</strong><br>
         this.selected_events = []
         this.selected_category = undefined
 
-        this.margin = ({ top: 30, right: 40, bottom: 60, left: 190 }) // Margin left can be shifted by the margin slider functions
+        this.margin = ({ top: 30, right: 40, bottom: 60, left: (width * .2) }) // Margin left can be shifted by the margin slider functions
         this.duration = transition_duration
         this.window_width = width
         this.window_height = height

@@ -5,9 +5,9 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 import DialogConstructorOptions = powerbiVisualsApi.extensibility.visual.DialogConstructorOptions;
 var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
-var teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG: IVisualPlugin = {
-    name: 'teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG',
-    displayName: 'teepv1',
+var teepv18DD77655738C462AAF0952A5BCB1D02C: IVisualPlugin = {
+    name: 'teepv18DD77655738C462AAF0952A5BCB1D02C',
+    displayName: 'TEEP v1',
     class: 'Visual',
     apiVersion: '5.1.0',
     create: (options: VisualConstructorOptions) => {
@@ -27,6 +27,6 @@ var teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG: IVisualPlugin = {
 if (typeof powerbi !== "undefined") {
     powerbi.visuals = powerbi.visuals || {};
     powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-    powerbi.visuals.plugins["teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG"] = teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG;
+    powerbi.visuals.plugins["teepv18DD77655738C462AAF0952A5BCB1D02C"] = teepv18DD77655738C462AAF0952A5BCB1D02C;
 }
-export default teepv18DD77655738C462AAF0952A5BCB1D02C_DEBUG;
+export default teepv18DD77655738C462AAF0952A5BCB1D02C;

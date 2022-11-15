@@ -41,7 +41,7 @@ import IVisual = powerbi.extensibility.visual.IVisual;
 import IVisualHost = powerbi.extensibility.IVisualHost;
 
 import { GanttChart } from "./ganttChart3"
-import { EventSettings, VisualSettingsModel } from "./settings";
+import { VisualSettingsModel } from "./settings";
 
 
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
