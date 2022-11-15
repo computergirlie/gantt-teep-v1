@@ -1,0 +1,174 @@
+{
+    "supportsEmptyDataView": true,
+    "privileges": [
+        {
+            "name": "ExportContent",
+            "essential": false
+        }
+    ],
+    "dataRoles": [
+        {
+            "displayName": "Start Date",
+            "name": "startDate",
+            "kind": "Grouping",
+            "description": "The column corresponding to your start date"
+        },
+        {
+            "displayName": "End Date",
+            "name": "endDate",
+            "kind": "Grouping",
+            "description": "The column corresponding to your end date"
+        },
+        {
+            "displayName": "Event Label",
+            "name": "label",
+            "kind": "Grouping",
+            "description": "The label you want to display on each event"
+        },
+        {
+            "displayName": "Grouping 1",
+            "name": "group1",
+            "kind": "Grouping",
+            "description": "Innermost column to group by (optional)"
+        },
+        {
+            "displayName": "Grouping 2",
+            "name": "group2",
+            "kind": "Grouping",
+            "description": "2nd column to group by (optional)"
+        },
+        {
+            "displayName": "Grouping 3",
+            "name": "group3",
+            "kind": "Grouping",
+            "description": "3rd column to group by (optional)"
+        },
+        {
+            "displayName": "Grouping 4",
+            "name": "group4",
+            "kind": "Grouping",
+            "description": "Outermost column to group by (optional)"
+        },
+        {
+            "name": "ExtraInformation",
+            "displayName": "Tooltips",
+            "displayNameKey": "Role_Tooltips",
+            "kind": "Grouping"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "startDate": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "endDate": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "label": {
+                        "min": 0,
+                        "max": 1
+                    }
+                }
+            ],
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "group1"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "group2"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "group3"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "group4"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "ExtraInformation"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "startDate"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "label"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "endDate"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "event": {
+            "properties": {
+                "eventFontColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "fontColorOverride": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "eventFontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "eventTextRotation": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "waterfall": {
+                    "type": {
+                        "bool": false
+                    }
+                }
+            }
+        },
+        "category": {
+            "properties": {
+                "categoryFontSize": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "categoryTextRotation": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    }
+}
