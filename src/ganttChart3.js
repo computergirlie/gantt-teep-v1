@@ -206,6 +206,8 @@ export class GanttChart {
     selected_events
     selected_category
     date_parser
+    col_display_names
+    col_internal_names
 
 
 
@@ -246,15 +248,21 @@ export class GanttChart {
         const end = format(d[this.settings.end_column])
         const label = d[this.settings.label_column] === undefined ? "" : d[this.settings.label_column]
         const details = d[this.settings.details] === undefined ? "" : d[this.settings.details]
+        let html_text = `Start: <strong>${start}</strong><br>End: <strong>${end}</strong><br>`
+        for (let i = 0; i < this.col_internal_names.length; i++) {
+            const col_name = this.col_internal_names[i];
+            if (col_name.includes("Date")) {
+                continue
+            }
+            const display_name = this.col_display_names[i]
+            text += `${display_name}: <strong>${display_name}</strong><br>`
+        }
+
         d3.select(".tooltip")
             .style("left", mouseover_event.pageX + 18 + "px")
             .style("top", mouseover_event.pageY + 18 + "px")
             .style("display", "block")
-            .html(`Start: <strong>${start}</strong><br>
-End: <strong>${end}</strong><br>
-Details: <strong>${details}</strong><br>
-Label: <strong>${label}</strong><br>
-`);
+            .html(html_text)
         d3.select(mouseover_event.target).style("cursor", "pointer"); //to help the user realize they can click to select
         d3.select(mouseover_event.target)
             .attr('stroke-width', 3);
@@ -456,29 +464,36 @@ Label: <strong>${label}</strong><br>
                 const format = d3.timeFormat('%d %b %y')
                 const start = format(d[gc.settings.start_column])
                 const end = format(d[gc.settings.end_column])
-                const label = d[gc.settings.label_column] === undefined ? "" : d[gc.settings.label_column]
-                const details = d[gc.settings.details] === undefined ? "" : d[gc.settings.details]
-                d3.select(".tooltip").style("left", mouseover_event.pageX + 18 + "px")
+                let html_text = `Start: <strong>${start}</strong><br>End: <strong>${end}</strong><br>`
+                for (let i = 0; i < gc.col_internal_names.length; i++) {
+                    const col_name = gc.col_internal_names[i];
+                    if (col_name.includes("Date")) {
+                        continue
+                    }
+                    const display_name = gc.col_display_names[i]
+                    const val = d[col_name]
+                    if (val == ""){continue}
+                    html_text += `${display_name}: <strong>${val}</strong><br>`
+                }
+
+                d3.select(".tooltip")
+                    .style("left", mouseover_event.pageX + 18 + "px")
                     .style("top", mouseover_event.pageY + 18 + "px")
                     .style("display", "block")
-                    .html(`Start: <strong>${start}</strong><br>` +
-                        `End: <strong>${end}</strong><br> ` +
-                        `Details: <strong>${details}</strong><br>` +
-                        `Label: <strong>${label}</strong><br>`);
+                    .html(html_text)
                 d3.select(mouseover_event.target).style("cursor", "pointer"); //to help the user realize they can click to select
                 d3.select(mouseover_event.target)
                     .attr('stroke-width', 3);
             })
-            .on('mouseout', function (mouseover_event, d) {
+            .on('mouseout', function (mouse_event, d) {
                 // Hide tooltip on mouse out
                 d3.select(".tooltip").style("display", "none"); // Hide tooltip
-                d3.select(mouseover_event.target)
+                d3.select(mouse_event.target)
                     .attr('stroke-width', 1)
 
-                d3.select(mouseover_event.target).style("cursor", "default");
-
+                d3.select(mouse_event.target).style("cursor", "default");
             })
-            .on("click", function (click_event, d) {
+            .on("click", function(click_event, d) {
                 if (gc.selected_events.includes(d)) {
                     const index = gc.selected_events.indexOf(d)
                     gc.selected_events.splice(index, 1)
@@ -492,7 +507,6 @@ Label: <strong>${label}</strong><br>
                         .attr('stroke-width', 3)
                 }
             })
-
         event_rects
             .transition().duration(this.duration).delay(this.duration)
             .attr("width", d => (this.params.time_scale(d[this.settings.end_column]) - this.params.time_scale(d[this.settings.start_column])))
@@ -786,16 +800,6 @@ Label: <strong>${label}</strong><br>
         this.create_categories_and_events()
     }
 
-    update_settings() {
-        // this.settings.waterfall = ...waterfall
-        // this.settings.event_rect_font_size = ...eventFontSize
-        // this.settings.event_text_rotation = ...eventTextRotation
-        // this.settings.event_text_color = ...eventFontColor
-        // this.settings.user_event_text_color = ...fontColorOverride
-        // this.settings.category_font_size = ...categoryFontSize
-        // this.settings.category_text_rotation = ...categoryTextRotation
-    }
-
     update_HW(height, width) {
         this.window_width = width
         this.window_height = height
@@ -812,14 +816,22 @@ Label: <strong>${label}</strong><br>
         this.sort_events_chronologically()
         this.events_currently_shown = this.events_all
     }
-    
-    update_settings(new_settings){
+
+    update_settings(new_settings) {
         this.settings = new_settings
+    }
+
+    update_col_display_names(col_names) {
+        this.col_display_names = col_names
+    }
+
+    update_internal_col_names(col_names) {
+        this.col_internal_names = col_names
     }
 
 
     constructor(width = 1000, height = 700, transition_duration = 500, svg) {
-        this.settings = { //settings hardcoded initially
+        this.settings = { //updated when convert_visual_settings() is called later
             label_column: "label",
             date_format: "mm/dd/yyyy",
             start_column: "startDate",

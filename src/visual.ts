@@ -131,12 +131,18 @@ export class Visual implements IVisual {
         this.visualSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualSettingsModel, options.dataViews);
 
         const new_settings = this.convert_visual_settings()
+
         console.log(new_settings)
         this.gc.update_settings(new_settings)
 
         this.gc.update_HW(height, width)
+        this.gc.update_col_display_names(this.viewModel.col_display_names)
+        this.gc.update_internal_col_names(this.viewModel.col_names_internal)
+        console.log("cp2")
+
         this.gc.update_events(this.viewModel.events)
         this.gc.update_groupings(this.viewModel.groupings)
+
         this.gc.draw_chart()
     }
 
@@ -148,8 +154,6 @@ export class Visual implements IVisual {
     public convert_visual_settings(){
         const catetgory_settings = this.visualSettings.category
         const event_settings = this.visualSettings.event
-        console.log(catetgory_settings)
-        console.log(event_settings)
 
         return {
             label_column: "label",

@@ -47,11 +47,23 @@
             "displayName": "Grouping 4",
             "name": "group4",
             "kind": "Grouping",
-            "description": "Outermost column to group by (optional)"
+            "description": "4th column to group by (optional)"
         },
         {
-            "name": "ExtraInformation",
-            "displayName": "Tooltips",
+            "displayName": "Grouping 5",
+            "name": "group5",
+            "kind": "Grouping",
+            "description": "5th column to group by (optional)"
+        },
+        {
+            "displayName": "Grouping 6",
+            "name": "group6",
+            "kind": "Grouping",
+            "description": "6th column to group by (optional)"
+        },
+        {
+            "name": "tooltip",
+            "displayName": "Description",
             "displayNameKey": "Role_Tooltips",
             "kind": "Grouping"
         }
@@ -61,15 +73,33 @@
             "conditions": [
                 {
                     "startDate": {
-                        "min": 0,
                         "max": 1
                     },
                     "endDate": {
-                        "min": 0,
                         "max": 1
                     },
-                    "label": {
-                        "min": 0,
+                    "label":{
+                        "max": 1
+                    },
+                    "group1": {
+                        "max": 1
+                    },
+                    "group2": {
+                        "max": 1
+                    },
+                    "group3": {
+                        "max": 1
+                    },
+                    "group4": {
+                        "max": 1
+                    },
+                    "group5": {
+                        "max": 1
+                    },
+                    "group6": {
+                        "max": 1
+                    },
+                    "tooltip": {
                         "max": 1
                     }
                 }
@@ -95,6 +125,16 @@
                         {
                             "for": {
                                 "in": "group4"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "group5"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "group6"
                             }
                         },
                         {
