@@ -65,7 +65,8 @@
             "name": "tooltip",
             "displayName": "Description",
             "displayNameKey": "Role_Tooltips",
-            "kind": "Grouping"
+            "kind": "Grouping",
+            "description": "Add in an extra column for description to appear in tooltip"
         }
     ],
     "dataViewMappings": [
@@ -139,7 +140,7 @@
                         },
                         {
                             "for": {
-                                "in": "ExtraInformation"
+                                "in": "tooltip"
                             }
                         },
                         {
