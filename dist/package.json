@@ -1,14 +1,14 @@
 {
-    "version": "1.0.0",
+    "version": "1.2.0",
     "author": {"name":"Caleb Cimmarrusti","email":"cimmarrusti.caleb@gmail.com"},
     "resources": [
         {
             "resourceId": "rId0",
             "sourceType": 5,
-            "file": "resources/teepv18DD77655738C462AAF0952A5BCB1D02C.pbiviz.json"
+            "file": "resources/teep_usmc_tool.pbiviz.json"
         }
     ],
-    "visual": {"name":"teepv1","displayName":"TEEP v1","guid":"teepv18DD77655738C462AAF0952A5BCB1D02C","visualClassName":"Visual","version":"1.0.0","description":"A flexible Gantt implementation for large scale hierarchical organizations","supportUrl":"https://community.powerbi.com","gitHubUrl":"https://github.com/ctcimmarrusti/gantt-teep-v1"},
+    "visual": {"name":"teepv1_2","displayName":"TEEP v1.2","guid":"teep_usmc_tool","visualClassName":"Visual","version":"1.2.0","description":"A flexible Gantt implementation for large scale hierarchical organizations","supportUrl":"https://community.powerbi.com","gitHubUrl":"https://github.com/ctcimmarrusti/gantt-teep-v1"},
     "metadata": {
         "pbivizjson": {
             "resourceId": "rId0"

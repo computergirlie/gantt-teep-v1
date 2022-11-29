@@ -45,6 +45,7 @@ import { VisualSettingsModel } from "./settings";
 
 
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
+import { color } from "d3";
 // import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
 type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
@@ -154,6 +155,10 @@ export class Visual implements IVisual {
     public convert_visual_settings(){
         const catetgory_settings = this.visualSettings.category
         const event_settings = this.visualSettings.event
+        let color_scale = "Warm"
+        if(catetgory_settings.categoryGrayScale.value){
+            color_scale = "Greys"
+        }
 
         return {
             label_column: "label",
@@ -167,7 +172,7 @@ export class Visual implements IVisual {
             category_text_rotation: catetgory_settings.categoryTextRotation.value,
             category_font_size: catetgory_settings.categoryFontSize.value,
             waterfall: event_settings.waterfall.value,
-            color_scale: "Warm"
+            color_scale: color_scale
         }
     }
 }

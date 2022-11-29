@@ -100,6 +100,12 @@ export class CategorySettings extends FormattingSettingsCard{
     displayName: "Text Rotation",
     value: 0
   })
+
+  public categoryGrayScale = new formattingSettings.ToggleSwitch({
+    name: "categoryGrayScale",
+    displayName: "Grayscale",
+    value: true
+  })
   
   
   public name: string = "category";
@@ -107,5 +113,6 @@ export class CategorySettings extends FormattingSettingsCard{
     public slices: FormattingSettingsSlice[] = [
       this.categoryFontSize, 
       this.categoryTextRotation,
+      this.categoryGrayScale
     ]
 }

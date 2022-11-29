@@ -392,10 +392,17 @@ export class GanttChart {
         return category_groups.append("rect")
             .attr("x", d => d.column * this.params.column_width)
             .attr("y", d => d.starting_row * this.params.row_height + this.margin.top)
-            .attr("fill", d => d3.rgb(this.params.color_scale(d.starting_row)))
+            .attr("fill", function (d) {
+                if (d.column == params.column_count - 1) {
+                    return d3.rgb("#fff")
+                } else {
+                    return d3.rgb(params.color_scale(d.starting_row)) //modified to allow printability need a separate funciton eventually
+
+                }
+            } )
             .attr("stroke", "gray")
-            .attr("opacity", d => (this.params.column_count - d.column + 1) * 0.2)
-            .attr("height", d => d.row_count * this.params.row_height)
+            .attr("opacity", d => (params.column_count - d.column + 1) * 0.2)
+            .attr("height", d => d.row_count * params.row_height)
             .attr("width", function (d) {
                 if (d.column == params.column_count - 1) {
                     return w_width - ((params.column_count - 1) * params.column_width)
@@ -472,7 +479,7 @@ export class GanttChart {
                     }
                     const display_name = gc.col_display_names[i]
                     const val = d[col_name]
-                    if (val == ""){continue}
+                    if (val == "") { continue }
                     html_text += `${display_name}: <strong>${val}</strong><br>`
                 }
 
@@ -493,7 +500,7 @@ export class GanttChart {
 
                 d3.select(mouse_event.target).style("cursor", "default");
             })
-            .on("click", function(click_event, d) {
+            .on("click", function (click_event, d) {
                 if (gc.selected_events.includes(d)) {
                     const index = gc.selected_events.indexOf(d)
                     gc.selected_events.splice(index, 1)
@@ -715,7 +722,7 @@ export class GanttChart {
             .classed("pulser", true)
 
         this.svg.append("text")
-            .text("Unilter Dates")
+            .text("Unfilter Dates")
             .attr("x", 5 + width - 2)
             .attr("y", bottom_of_chart + (height * (i + .8)) + 3)
             .attr("text-anchor", "end")
@@ -795,6 +802,7 @@ export class GanttChart {
         this.remove_events_and_categories()
         this.params = new Params(this.events_currently_shown, this.settings, this.window_width, this.margin, this.chart_height)
         const x_axis = this.update_x_axis()
+        this.selected_category = undefined
         x_axis.selectAll("text")
             .call(this.format_axis_text)
         this.create_categories_and_events()
@@ -863,6 +871,3 @@ export class GanttChart {
 
 }
 
-export function update_HW(height, width) {
-    throw new Error("Function not implemented.")
-}
