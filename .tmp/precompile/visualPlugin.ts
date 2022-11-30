@@ -7,7 +7,7 @@ var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
 var teep_usmc_tool: IVisualPlugin = {
     name: 'teep_usmc_tool',
-    displayName: 'TEEP v1.2',
+    displayName: 'TEEP v1.3',
     class: 'Visual',
     apiVersion: '5.1.0',
     create: (options: VisualConstructorOptions) => {
