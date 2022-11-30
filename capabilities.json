@@ -192,7 +192,7 @@
                 },
                 "waterfall": {
                     "type": {
-                        "bool": false
+                        "bool": true
                     }
                 }
             }
