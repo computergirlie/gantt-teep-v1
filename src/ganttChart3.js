@@ -802,7 +802,6 @@ export class GanttChart {
         this.remove_events_and_categories()
         this.params = new Params(this.events_currently_shown, this.settings, this.window_width, this.margin, this.chart_height)
         const x_axis = this.update_x_axis()
-        this.selected_category = undefined
         x_axis.selectAll("text")
             .call(this.format_axis_text)
         this.create_categories_and_events()

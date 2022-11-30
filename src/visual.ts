@@ -135,11 +135,12 @@ export class Visual implements IVisual {
 
         console.log(new_settings)
         this.gc.update_settings(new_settings)
+        this.gc.selected_category = undefined
+
 
         this.gc.update_HW(height, width)
         this.gc.update_col_display_names(this.viewModel.col_display_names)
         this.gc.update_internal_col_names(this.viewModel.col_names_internal)
-        console.log("cp2")
 
         this.gc.update_events(this.viewModel.events)
         this.gc.update_groupings(this.viewModel.groupings)
