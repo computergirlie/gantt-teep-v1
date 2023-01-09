@@ -37,7 +37,8 @@ import FormattingSettingsModel = formattingSettings.Model;
 export class VisualSettingsModel extends FormattingSettingsModel {
   public event: EventSettings = new EventSettings();
   public category: CategorySettings = new CategorySettings();
-  public cards: FormattingSettingsCard[] = [this.event, this.category];
+  public general: GeneralSettings = new GeneralSettings();
+  public cards: FormattingSettingsCard[] = [this.event, this.category, this.general];
 }
 
 
@@ -115,4 +116,19 @@ export class CategorySettings extends FormattingSettingsCard{
       this.categoryTextRotation,
       this.categoryGrayScale
     ]
+}
+
+export class GeneralSettings extends FormattingSettingsCard{
+  public markCurrentDay = new formattingSettings.ToggleSwitch({
+    name: "markCurrentDay",
+    displayName: "Mark Current Day",
+    value: true
+  })
+
+  public name: string = "general";
+    public displayName: string = "Visual Settings";
+    public slices: FormattingSettingsSlice[] = [
+      this.markCurrentDay
+    ]
+
 }

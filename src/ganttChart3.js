@@ -520,6 +520,7 @@ export class GanttChart {
     }
 
     set_category_text(category_groups) {
+        const params = this.params
         let category_text = category_groups.append("text")
             .text(d => d.name)
             .attr('transform', (d) => {
@@ -530,7 +531,14 @@ export class GanttChart {
             .attr("font-size", this.settings.category_font_size)
             .attr("alignment-baseline", "middle")
             .attr("text-anchor", "middle")
-            .style("fill", d => d3.rgb(this.params.color_scale(d.starting_row)).darker())
+            .attr("fill", function (d) {
+                if (d.column == params.column_count - 1) {
+                    return d3.rgb("#000")
+                } else {
+                    return d3.rgb(params.color_scale(d.starting_row)).darker() //modified to allow printability need a separate funciton eventually
+
+                }
+            } )
             .attr('pointer-events', 'none') //ensures mouseover of text does not end the tooltip for the rectangle.
             .classed("category_text", true)
     }
@@ -556,6 +564,32 @@ export class GanttChart {
         return event_text
     }
 
+    set_current_day_line(){
+        if(!this.settings.mark_today){ // if mark today is set to off
+            return
+        }
+        const current_day = new Date()
+        const scale_start = this.params.time_scale.domain()[0] 
+        const scale_end = this.params.time_scale.domain()[1]
+        if(current_day < scale_start || current_day > scale_end){
+            console.log("current day out of scope")
+            return
+        }
+        
+        let current_day_line = this.svg.append("line")
+            .attr("x1", this.params.time_scale(current_day) + this.margin.left)
+            .attr("x2", this.params.time_scale(current_day) + this.margin.left)
+            .attr("y1", this.margin.top)
+            .attr("y2", d => this.margin.top + this.chart_height)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2)
+            .style("stroke-dasharray", ("3, 3"))
+            .attr("fill", "#fff")
+            .attr("stroke-opacity", 0.5)
+            .classed('today_line', true)
+        
+    }
+
     create_categories_and_events() {
         const category_groups = this.pair_categories_to_groups()
         this.set_category_rects(category_groups)
@@ -563,6 +597,7 @@ export class GanttChart {
         this.set_event_rects(event_groups)
         this.set_category_text(category_groups)
         this.set_event_text(event_groups)
+        this.set_current_day_line()
     }
 
     set_settings_dropdown() {
@@ -758,7 +793,6 @@ export class GanttChart {
         this.create_categories_and_events()
         let margin_slider = this.set_margin_slider()
         this.set_date_filter()
-        this.set_settings_dropdown()
         this.set_date_filter_buttons()
 
     }
@@ -794,6 +828,7 @@ export class GanttChart {
         this.svg.selectAll(".category_rect").remove()
         this.svg.selectAll(".category_group").remove()
         this.svg.selectAll(".event_group").remove()
+        this.svg.selectAll(".today_line").remove()
     }
 
 

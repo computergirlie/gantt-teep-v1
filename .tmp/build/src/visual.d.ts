@@ -27,6 +27,7 @@ export declare class Visual implements IVisual {
         category_text_rotation: number;
         category_font_size: number;
         waterfall: boolean;
+        mark_today: boolean;
         color_scale: string;
     };
 }

@@ -133,7 +133,6 @@ export class Visual implements IVisual {
 
         const new_settings = this.convert_visual_settings()
 
-        console.log(new_settings)
         this.gc.update_settings(new_settings)
         this.gc.selected_category = undefined
 
@@ -156,6 +155,7 @@ export class Visual implements IVisual {
     public convert_visual_settings(){
         const catetgory_settings = this.visualSettings.category
         const event_settings = this.visualSettings.event
+        const general_settings = this.visualSettings.general
         let color_scale = "Warm"
         if(catetgory_settings.categoryGrayScale.value){
             color_scale = "Greys"
@@ -173,6 +173,7 @@ export class Visual implements IVisual {
             category_text_rotation: catetgory_settings.categoryTextRotation.value,
             category_font_size: catetgory_settings.categoryFontSize.value,
             waterfall: event_settings.waterfall.value,
+            mark_today: general_settings.markCurrentDay.value,
             color_scale: color_scale
         }
     }

@@ -215,6 +215,15 @@
                     }
                 }
             }
+        },
+        "general": {
+            "properties": {
+                "markCurrentDay": {
+                    "type":{
+                        "bool": true
+                    }
+                }
+            }
         }
     }
 }
