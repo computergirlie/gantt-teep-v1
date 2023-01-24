@@ -12,22 +12,25 @@ export declare class EventSettings extends FormattingSettingsCard {
     eventFontColor: formattingSettings.ColorPicker;
     fontColorOverride: formattingSettings.ToggleSwitch;
     eventFontSize: formattingSettings.NumUpDown;
-    eventTextRotation: formattingSettings.NumUpDown;
+    eventTextRotation: formattingSettings.ItemDropdown;
     waterfall: formattingSettings.ToggleSwitch;
+    paddingType: formattingSettings.ItemDropdown;
+    paddingAmount: formattingSettings.NumUpDown;
     name: string;
     displayName: string;
     slices: FormattingSettingsSlice[];
 }
 export declare class CategorySettings extends FormattingSettingsCard {
     categoryFontSize: formattingSettings.NumUpDown;
-    categoryTextRotation: formattingSettings.NumUpDown;
-    categoryGrayScale: formattingSettings.ToggleSwitch;
+    categoryTextRotation: formattingSettings.ItemDropdown;
     name: string;
     displayName: string;
     slices: FormattingSettingsSlice[];
 }
 export declare class GeneralSettings extends FormattingSettingsCard {
     markCurrentDay: formattingSettings.ToggleSwitch;
+    colorScheme: formattingSettings.ItemDropdown;
+    grayScale: formattingSettings.ToggleSwitch;
     name: string;
     displayName: string;
     slices: FormattingSettingsSlice[];

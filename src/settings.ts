@@ -62,16 +62,70 @@ export class EventSettings extends FormattingSettingsCard{
   });
 
 
-  public eventTextRotation = new formattingSettings.NumUpDown({
+  public eventTextRotation = new formattingSettings.ItemDropdown({
     name: "eventTextRotation",
     displayName: "Text Rotation",
-    value: 0
+    value:       {
+      "value": "0",
+      "displayName": "Normal",
+    },
+    items: [
+      {
+          "value": "0",
+          "displayName": "Normal"
+      },
+      {
+          "value": "90",
+          "displayName": "Clockwise"
+      },
+      {
+          "value": "-90",
+          "displayName": "Counter-Clockwise"
+      },
+      {
+          "value": "180",
+          "displayName": "Flipped"
+      }
+    ]       
   })
   
   public waterfall = new formattingSettings.ToggleSwitch({
     name: "waterfall",
     displayName: "Waterfall Mode",
     value: false
+  })
+
+  public paddingType = new formattingSettings.ItemDropdown({
+    name: "paddingType",
+    displayName: "Padding Type",
+    value: {
+      "value": "1",
+      "displayName": "Days"
+    },
+    items:[
+      {
+          "value": "1",
+          "displayName": "Days"
+      },
+      {
+          "value": "7",
+          "displayName": "Weeks"
+      },
+      {
+          "value": "30",
+          "displayName": "Months"
+      },
+      {
+          "value": "365",
+          "displayName": "Years"
+      }
+    ]
+  })
+
+  public paddingAmount = new formattingSettings.NumUpDown({
+    name: "paddingAmount",
+    displayName: "Padding Amount",
+    value: 0
   })
   
 
@@ -82,7 +136,9 @@ export class EventSettings extends FormattingSettingsCard{
       this.fontColorOverride,
       this.eventFontSize, 
       this.eventTextRotation,
-      this.waterfall
+      this.waterfall,
+      this.paddingType,
+      this.paddingAmount
     ]
 }
 
@@ -96,16 +152,31 @@ export class CategorySettings extends FormattingSettingsCard{
 
 
 
-  public categoryTextRotation = new formattingSettings.NumUpDown({
+  public categoryTextRotation = new formattingSettings.ItemDropdown({
     name: "categoryTextRotation",
     displayName: "Text Rotation",
-    value: 0
-  })
-
-  public categoryGrayScale = new formattingSettings.ToggleSwitch({
-    name: "categoryGrayScale",
-    displayName: "Grayscale",
-    value: true
+    value:       {
+      "value": "0",
+      "displayName": "Normal",
+    },
+    items: [
+      {
+          "value": "0",
+          "displayName": "Normal"
+      },
+      {
+          "value": "90",
+          "displayName": "Clockwise"
+      },
+      {
+          "value": "-90",
+          "displayName": "Counter-Clockwise"
+      },
+      {
+          "value": "180",
+          "displayName": "Flipped"
+      }
+  ]       
   })
   
   
@@ -113,8 +184,7 @@ export class CategorySettings extends FormattingSettingsCard{
     public displayName: string = "Category Settings";
     public slices: FormattingSettingsSlice[] = [
       this.categoryFontSize, 
-      this.categoryTextRotation,
-      this.categoryGrayScale
+      this.categoryTextRotation
     ]
 }
 
@@ -124,11 +194,112 @@ export class GeneralSettings extends FormattingSettingsCard{
     displayName: "Mark Current Day",
     value: true
   })
+  
+  public colorScheme = new formattingSettings.ItemDropdown({
+    displayName: "Color Scheme",
+    items: [
+      {
+          "value": "Greys",
+          "displayName": "Greys",
+      },
+      {
+          "value": "Blues",
+          "displayName": "Blues",
+      },
+      {
+          "value": "Greens",
+          "displayName": "Greens",
+      },
+      {
+          "value": "Oranges",
+          "displayName": "Oranges",
+      },
+      {
+          "value": "Reds",
+          "displayName": "Reds",
+      },
+      {
+          "value": "BuGn",
+          "displayName": "BuGn",
+      },
+      {
+          "value": "OrRd",
+          "displayName": "OrRd",
+      },
+      {
+          "value": "PuBu",
+          "displayName": "PuBu",
+      },
+      {
+          "value": "YlGnBu",
+          "displayName": "YlGnBu",
+      },
+      {
+          "value": "Cividis",
+          "displayName": "Cividis",
+      },
+      {
+          "value": "Viridis",
+          "displayName": "Viridis",
+      },
+      {
+          "value": "Inferno",
+          "displayName": "Inferno",
+      },
+      {
+          "value": "Magma",
+          "displayName": "Magma",
+      },
+      {
+          "value": "Plasma",
+          "displayName": "Plasma",
+      },
+      {
+          "value": "Warm",
+          "displayName": "Warm",
+      },
+      {
+          "value": "Cool",
+          "displayName": "Cool",
+      },
+      {
+          "value": "CubehelixDefault",
+          "displayName": "CubehelixDefault",
+      },
+      {
+          "value": "Turbo",
+          "displayName": "Turbo",
+      },
+      {
+          "value": "BrBG",
+          "displayName": "BrBG",
+      },
+      {
+          "value": "Spectral",
+          "displayName": "Spectral",
+      },
+      {
+          "value": "Sinebow",
+          "displayName": "Sinebow",
+      }
+  ],
+    name: "colorScheme",
+    value: {value: "Greens",
+            displayName: "Greens"}
+  })
+
+  public grayScale = new formattingSettings.ToggleSwitch({
+    name: "grayScale",
+    displayName: "Grayscale",
+    value: true
+  })
 
   public name: string = "general";
     public displayName: string = "Visual Settings";
     public slices: FormattingSettingsSlice[] = [
-      this.markCurrentDay
+      this.markCurrentDay,
+      this.colorScheme,
+      this.grayScale
     ]
 
 }

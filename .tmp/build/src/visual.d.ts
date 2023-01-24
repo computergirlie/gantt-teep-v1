@@ -28,7 +28,8 @@ export declare class Visual implements IVisual {
         category_font_size: number;
         waterfall: boolean;
         mark_today: boolean;
-        color_scale: string;
+        color_scale: powerbi.EnumMemberValue;
+        padding_amount: number;
     };
 }
 export {};
