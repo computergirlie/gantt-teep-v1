@@ -494,7 +494,6 @@ export class GanttChart {
             .classed('event_rect', true)
             .on('mousemove', function (mouseover_event, d) {
                 const format = d3.timeFormat('%d %b %y')
-                console.log(d)
                 const start = format(d.actual_start)
                 const end = format(d.actual_end)
                 let html_text = `Start: <strong>${start}</strong><br>End: <strong>${end}</strong><br>`
@@ -815,7 +814,7 @@ export class GanttChart {
         let x_axis = this.set_x_axis()
         this.set_tooltip()
         x_axis.selectAll("text")
-        .call(this.format_axis_text)
+            .call(this.format_axis_text)
         this.create_categories_and_events()
         let margin_slider = this.set_margin_slider()
         this.set_date_filter()
