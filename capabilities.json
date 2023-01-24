@@ -79,7 +79,7 @@
                     "endDate": {
                         "max": 1
                     },
-                    "label":{
+                    "label": {
                         "max": 1
                     },
                     "group1": {
@@ -187,12 +187,22 @@
                 },
                 "eventTextRotation": {
                     "type": {
-                        "numeric": true
+                        "enumeration": []
                     }
                 },
                 "waterfall": {
                     "type": {
                         "bool": true
+                    }
+                },
+                "paddingAmount": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "paddingType":{
+                    "type": {
+                        "enumeration": []
                     }
                 }
             }
@@ -206,12 +216,7 @@
                 },
                 "categoryTextRotation": {
                     "type": {
-                        "numeric": true
-                    }
-                },
-                "categoryGrayScale":{
-                    "type": {
-                        "bool": true
+                        "enumeration": []        
                     }
                 }
             }
@@ -219,7 +224,123 @@
         "general": {
             "properties": {
                 "markCurrentDay": {
-                    "type":{
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "colorScheme": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "Greys",
+                                "displayName": "Greys",
+                                "displayNameKey": "color_scheme_Greys"
+                            },
+                            {
+                                "value": "Blues",
+                                "displayName": "Blues",
+                                "displayNameKey": "color_scheme_Blues"
+                            },
+                            {
+                                "value": "Greens",
+                                "displayName": "Greens",
+                                "displayNameKey": "color_scheme_Greens"
+                            },
+                            {
+                                "value": "Oranges",
+                                "displayName": "Oranges",
+                                "displayNameKey": "color_scheme_Oranges"
+                            },
+                            {
+                                "value": "Reds",
+                                "displayName": "Reds",
+                                "displayNameKey": "color_scheme_Reds"
+                            },
+                            {
+                                "value": "BuGn",
+                                "displayName": "BuGn",
+                                "displayNameKey": "color_scheme_BuGn"
+                            },
+                            {
+                                "value": "OrRd",
+                                "displayName": "OrRd",
+                                "displayNameKey": "color_scheme_OrRd"
+                            },
+                            {
+                                "value": "PuBu",
+                                "displayName": "PuBu",
+                                "displayNameKey": "color_scheme_PuBu"
+                            },
+                            {
+                                "value": "YlGnBu",
+                                "displayName": "YlGnBu",
+                                "displayNameKey": "color_scheme_YlGnBu"
+                            },
+                            {
+                                "value": "Cividis",
+                                "displayName": "Cividis",
+                                "displayNameKey": "color_scheme_Cividis"
+                            },
+                            {
+                                "value": "Viridis",
+                                "displayName": "Viridis",
+                                "displayNameKey": "color_scheme_Viridis"
+                            },
+                            {
+                                "value": "Inferno",
+                                "displayName": "Inferno",
+                                "displayNameKey": "color_scheme_Inferno"
+                            },
+                            {
+                                "value": "Magma",
+                                "displayName": "Magma",
+                                "displayNameKey": "color_scheme_Magma"
+                            },
+                            {
+                                "value": "Plasma",
+                                "displayName": "Plasma",
+                                "displayNameKey": "color_scheme_Plasma"
+                            },
+                            {
+                                "value": "Warm",
+                                "displayName": "Warm",
+                                "displayNameKey": "color_scheme_Warm"
+                            },
+                            {
+                                "value": "Cool",
+                                "displayName": "Cool",
+                                "displayNameKey": "color_scheme_Cool"
+                            },
+                            {
+                                "value": "CubehelixDefault",
+                                "displayName": "CubehelixDefault",
+                                "displayNameKey": "color_scheme_CubehelixDefault"
+                            },
+                            {
+                                "value": "Turbo",
+                                "displayName": "Turbo",
+                                "displayNameKey": "color_scheme_Turbo"
+                            },
+                            {
+                                "value": "BrBG",
+                                "displayName": "BrBG",
+                                "displayNameKey": "color_scheme_BrBG"
+                            },
+                            {
+                                "value": "Spectral",
+                                "displayName": "Spectral",
+                                "displayNameKey": "color_scheme_Spectral"
+                            },
+                            {
+                                "value": "Sinebow",
+                                "displayName": "Sinebow",
+                                "displayNameKey": "color_scheme_Sinebow"
+                            }
+                        ]
+                    }
+                },
+                "grayScale": {
+                    "type": {
                         "bool": true
                     }
                 }

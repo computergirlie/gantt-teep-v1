@@ -41,11 +41,12 @@ import IVisual = powerbi.extensibility.visual.IVisual;
 import IVisualHost = powerbi.extensibility.IVisualHost;
 
 import { GanttChart } from "./ganttChart3"
-import { VisualSettingsModel } from "./settings";
+import { GeneralSettings, VisualSettingsModel } from "./settings";
 
 
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import { color } from "d3";
+
 // import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
 type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
@@ -156,10 +157,15 @@ export class Visual implements IVisual {
         const catetgory_settings = this.visualSettings.category
         const event_settings = this.visualSettings.event
         const general_settings = this.visualSettings.general
-        let color_scale = "Warm"
-        if(catetgory_settings.categoryGrayScale.value){
+        let color_scale = general_settings.colorScheme.value.value
+        if(general_settings.grayScale.value){ //maybe cut later we will see
             color_scale = "Greys"
         }
+
+        const padding_amount_val = Math.max(0, this.visualSettings.event.paddingAmount.value)
+        const padding_type_val = parseInt(String(this.visualSettings.event.paddingType.value.value))
+
+
 
         return {
             label_column: "label",
@@ -168,13 +174,14 @@ export class Visual implements IVisual {
             groupings: [],
             event_text_color: event_settings.eventFontColor.value.value,
             user_event_text_color: event_settings.fontColorOverride.value,
-            event_text_rotation: event_settings.eventTextRotation.value,
+            event_text_rotation: parseInt(String(event_settings.eventTextRotation.value.value)),
             event_rect_font_size: event_settings.eventFontSize.value,
-            category_text_rotation: catetgory_settings.categoryTextRotation.value,
-            category_font_size: catetgory_settings.categoryFontSize.value,
+            category_text_rotation: parseInt(String(catetgory_settings.categoryTextRotation.value.value)),
+            category_font_size: Math.max(0, catetgory_settings.categoryFontSize.value),
             waterfall: event_settings.waterfall.value,
             mark_today: general_settings.markCurrentDay.value,
-            color_scale: color_scale
+            color_scale: color_scale,
+            padding_amount: padding_amount_val * padding_type_val
         }
     }
 }

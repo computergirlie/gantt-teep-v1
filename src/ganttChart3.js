@@ -223,6 +223,20 @@ export class GanttChart {
         { code: d3.timeParse("%x %I:%M:%S %pz"), written: "MM/DD/YYYY hh:mm:ss A/PM" }
     ]
 
+    apply_padding() {
+        const days_to_pad = this.settings.padding_amount
+        const sc = this.settings.start_column
+        const ec = this.settings.end_column
+        this.events_all.map(function(event){
+            event.actual_start = new Date(event[sc])
+            event.actual_end = new Date(event[ec] )
+            event[sc].setDate(event[sc].getDate() - days_to_pad)
+            Date(event[ec].setDate(event[ec].getDate() + days_to_pad))
+        })
+        console.log(this.events_all)
+    }
+
+
     sort_events_chronologically() {
         this.events_all = _.orderBy(this.events_all, [this.settings.start_column, this.settings.end_column], ['asc', 'asc'])
     }
@@ -421,6 +435,12 @@ export class GanttChart {
                     .attr("opacity", d => filtered_data.includes(d) ? 1 : .4)
                     .attr('stroke-width', d => filtered_data.includes(d) ? 3 : 1)
                 d3.select(mouseover_event.target).style("cursor", "pointer");//to help the user realize they can click to select
+                //The modification of rects means they are moved to the front.  We will thus move all text to the front so that they are not blocked by rects
+                d3.selectAll(".event_text")
+                    .attr("font-size", this.settings.event_rect_font_size)
+
+                //not fixed leaving for future attempts
+
             })
             .on('mouseout', function (mouseout_event, d) {
                 //here event refers to the mouseout event, not an event on the schedule
@@ -429,6 +449,11 @@ export class GanttChart {
                 d3.selectAll(".event_rect")
                     .attr("opacity", 1)
                     .attr("stroke-width", 1)
+                //The modification of rects means they are moved to the front.  We will thus move all text to the front so that they are not blocked by rects
+                d3.selectAll(".event_text")
+                    .attr("font-size", this.settings.event_rect_font_size)
+
+                //not fixed leaving for future attempts
             })
             .on('click', function (click_event, d) {
                 gc.events_currently_shown = gc.events_all
@@ -469,8 +494,9 @@ export class GanttChart {
             .classed('event_rect', true)
             .on('mousemove', function (mouseover_event, d) {
                 const format = d3.timeFormat('%d %b %y')
-                const start = format(d[gc.settings.start_column])
-                const end = format(d[gc.settings.end_column])
+                console.log(d)
+                const start = format(d.actual_start)
+                const end = format(d.actual_end)
                 let html_text = `Start: <strong>${start}</strong><br>End: <strong>${end}</strong><br>`
                 for (let i = 0; i < gc.col_internal_names.length; i++) {
                     const col_name = gc.col_internal_names[i];
@@ -515,7 +541,7 @@ export class GanttChart {
                 }
             })
         event_rects
-            .transition().duration(this.duration).delay(this.duration)
+            // .transition().duration(this.duration).delay(this.duration)
             .attr("width", d => (this.params.time_scale(d[this.settings.end_column]) - this.params.time_scale(d[this.settings.start_column])))
     }
 
@@ -592,7 +618,7 @@ export class GanttChart {
 
     create_categories_and_events() {
         const category_groups = this.pair_categories_to_groups()
-        this.set_category_rects(category_groups)
+        this.set_category_rects(category_groups)        
         const event_groups = this.pair_data_to_event_groups()
         this.set_event_rects(event_groups)
         this.set_category_text(category_groups)
@@ -789,7 +815,7 @@ export class GanttChart {
         let x_axis = this.set_x_axis()
         this.set_tooltip()
         x_axis.selectAll("text")
-            .call(this.format_axis_text)
+        .call(this.format_axis_text)
         this.create_categories_and_events()
         let margin_slider = this.set_margin_slider()
         this.set_date_filter()
@@ -855,6 +881,7 @@ export class GanttChart {
 
     update_events(new_events) {
         this.events_all = new_events
+        this.apply_padding()
         this.sort_events_chronologically()
         this.events_currently_shown = this.events_all
     }
