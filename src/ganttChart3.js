@@ -1,4 +1,5 @@
 import * as d3 from "d3"
+import { color, rgb } from "d3"
 import * as _ from "lodash"
 
 
@@ -182,8 +183,10 @@ class Params {
         this.column_count = settings.groupings.length > 0 ? settings.groupings.length : 1
         this.column_width = margin.left / this.column_count
         this.row_params = new Row_params(settings, events)
-        this.row_height = chart_height / (this.row_params.row_count) //recalculate with stacking
-        this.color_scale = get_color_scale(this.row_params.row_count, settings)
+        this.row_height = chart_height / (this.row_params.row_count ) //recalculate with stacking
+        this.color_scale = get_color_scale(this.row_params.row_count, settings) //<- obviously this is something to have to do with setting the color scheme. 
+        this.customColor =  settings.customColor //"#FA53AB"
+        this.customColorOverride = settings.colorSchemeOverride
         this.time_scale = get_timescale(events, settings, window_width, margin)
     }
 }
@@ -227,9 +230,9 @@ export class GanttChart {
         const days_to_pad = this.settings.padding_amount
         const sc = this.settings.start_column
         const ec = this.settings.end_column
-        this.events_all.map(function(event){
+        this.events_all.map(function (event) {
             event.actual_start = new Date(event[sc])
-            event.actual_end = new Date(event[ec] )
+            event.actual_end = new Date(event[ec])
             event[sc].setDate(event[sc].getDate() - days_to_pad)
             Date(event[ec].setDate(event[ec].getDate() + days_to_pad))
         })
@@ -409,11 +412,13 @@ export class GanttChart {
             .attr("fill", function (d) {
                 if (d.column == params.column_count - 1) {
                     return d3.rgb("#fff")
-                } else {
+                } else {return d3.rgb(params.color_scale(d.starting_row))}
+                   /*  if (colorSchemeOverride){ return d3.rgb(this.params.customColor)} //acollins 8/2/24: this is so that the custom color scheme is filled... Hopefully It doesnt break
+                    else{
                     return d3.rgb(params.color_scale(d.starting_row)) //modified to allow printability need a separate funciton eventually
-
-                }
-            } )
+                    } */
+                //}
+            })
             .attr("stroke", "gray")
             .attr("opacity", d => (params.column_count - d.column + 1) * 0.2)
             .attr("height", d => d.row_count * params.row_height)
@@ -439,8 +444,8 @@ export class GanttChart {
                 d3.selectAll(".event_text")
                     .attr("font-size", this.settings.event_rect_font_size)
 
-                //not fixed leaving for future attempts
-
+                //not fixed leaving for future attempts <- //acollins 7/30/2024: This usually is the way items are drawn.  If we set the items to draw before we draw the text then we should in theory fix the problem/
+                
             })
             .on('mouseout', function (mouseout_event, d) {
                 //here event refers to the mouseout event, not an event on the schedule
@@ -467,8 +472,6 @@ export class GanttChart {
                     gc.update_chart()
                 }
             })
-
-
     }
 
     pair_data_to_event_groups() {
@@ -480,7 +483,7 @@ export class GanttChart {
     }
 
     set_event_rects(event_groups) {
-        const gc = this
+        const gc = this 
         let event_rects = event_groups.append("rect")
             .attr("rx", 3)
             .attr("ry", 3)
@@ -490,8 +493,11 @@ export class GanttChart {
             .attr("height", this.params.row_height - 4)
             .attr("stroke", "black")
             .attr("stroke-width", 1)
-            .attr("fill", d => d3.rgb(this.params.color_scale(d.row_val)))
-            .classed('event_rect', true)
+            //acollins - 8/2/24: changing the colors IF the override is on... 
+            if (this.params.customColorOverride) { event_rects.attr("fill", d=> d3.rgb(this.params.customColor)) }
+            else{event_rects.attr("fill", d => d3.rgb(this.params.color_scale(d.row_val))) }
+            //.attr("fill", d => d3.rgb(this.params.color_scale(d.row_val)))  <-Old code line here... Next thing is getting the colors to totally override with a parameter. 
+            event_rects.classed('event_rect', true)
             .on('mousemove', function (mouseover_event, d) {
                 const format = d3.timeFormat('%d %b %y')
                 const start = format(d.actual_start)
@@ -563,7 +569,7 @@ export class GanttChart {
                     return d3.rgb(params.color_scale(d.starting_row)).darker() //modified to allow printability need a separate funciton eventually
 
                 }
-            } )
+            })
             .attr('pointer-events', 'none') //ensures mouseover of text does not end the tooltip for the rectangle.
             .classed("category_text", true)
     }
@@ -589,18 +595,18 @@ export class GanttChart {
         return event_text
     }
 
-    set_current_day_line(){
-        if(!this.settings.mark_today){ // if mark today is set to off
+    set_current_day_line() {
+        if (!this.settings.mark_today) { // if mark today is set to off
             return
         }
         const current_day = new Date()
-        const scale_start = this.params.time_scale.domain()[0] 
+        const scale_start = this.params.time_scale.domain()[0]
         const scale_end = this.params.time_scale.domain()[1]
-        if(current_day < scale_start || current_day > scale_end){
+        if (current_day < scale_start || current_day > scale_end) {
             console.log("current day out of scope")
             return
         }
-        
+
         let current_day_line = this.svg.append("line")
             .attr("x1", this.params.time_scale(current_day) + this.margin.left)
             .attr("x2", this.params.time_scale(current_day) + this.margin.left)
@@ -612,19 +618,19 @@ export class GanttChart {
             .attr("fill", "#fff")
             .attr("stroke-opacity", 0.5)
             .classed('today_line', true)
-        
+
     }
 
     create_categories_and_events() {
         const category_groups = this.pair_categories_to_groups()
-        this.set_category_rects(category_groups)        
+        this.set_category_rects(category_groups)
         const event_groups = this.pair_data_to_event_groups()
         this.set_event_rects(event_groups)
         this.set_category_text(category_groups)
         this.set_event_text(event_groups)
         this.set_current_day_line()
     }
-
+    
     set_settings_dropdown() {
         //on hold until implementation is completed
         /*
@@ -655,7 +661,7 @@ export class GanttChart {
             .attr('pointer-events', 'none') //ensures mouseover of text does not end the tooltip for the rectangle.
             */
     }
-
+    
     set_margin_slider() {
         const gc = this
         const margin_slider_group = this.svg
@@ -750,7 +756,7 @@ export class GanttChart {
             .classed("pulser", true)
 
         this.svg.append("text")
-            .text("Filter Dates")
+            .text("Filter Dates")  //     this.settings.event_height
             .attr("x", 5 + width - 2)
             .attr("y", bottom_of_chart + (height * (i + .8)))
             .attr("text-anchor", "end")
@@ -912,7 +918,10 @@ export class GanttChart {
             category_text_rotation: 0,
             category_font_size: 13,
             waterfall: false,
-            color_scale: "Warm"
+            color_scale: "Warm",
+            customColor: "ffffff", 
+            colorSchemeOverride: false,
+            event_height: 20           
         }
 
 

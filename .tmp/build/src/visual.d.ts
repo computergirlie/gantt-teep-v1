@@ -12,6 +12,7 @@ export declare class Visual implements IVisual {
     viewModel: any;
     private visualSettings;
     private formattingSettingsService;
+    private colorPalatte;
     constructor(options: VisualConstructorOptions);
     update(options: VisualUpdateOptions): void;
     getFormattingModel(): powerbi.visuals.FormattingModel;
@@ -28,8 +29,11 @@ export declare class Visual implements IVisual {
         category_font_size: number;
         waterfall: boolean;
         mark_today: boolean;
-        color_scale: powerbi.EnumMemberValue;
+        color_scale: string | number;
         padding_amount: number;
+        customColor: string;
+        colorSchemeOverride: boolean;
+        event_height: number;
     };
 }
 export {};

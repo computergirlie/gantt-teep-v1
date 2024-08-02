@@ -16,6 +16,7 @@ export declare class EventSettings extends FormattingSettingsCard {
     waterfall: formattingSettings.ToggleSwitch;
     paddingType: formattingSettings.ItemDropdown;
     paddingAmount: formattingSettings.NumUpDown;
+    eventHeight: formattingSettings.NumUpDown;
     name: string;
     displayName: string;
     slices: FormattingSettingsSlice[];
@@ -31,6 +32,8 @@ export declare class GeneralSettings extends FormattingSettingsCard {
     markCurrentDay: formattingSettings.ToggleSwitch;
     colorScheme: formattingSettings.ItemDropdown;
     grayScale: formattingSettings.ToggleSwitch;
+    colorSchemeOverride: formattingSettings.ToggleSwitch;
+    customColor: formattingSettings.ColorPicker;
     name: string;
     displayName: string;
     slices: FormattingSettingsSlice[];

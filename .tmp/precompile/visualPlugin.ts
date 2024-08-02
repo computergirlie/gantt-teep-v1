@@ -7,17 +7,17 @@ var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
 var teep_usmc_tool_DEBUG: IVisualPlugin = {
     name: 'teep_usmc_tool_DEBUG',
-    displayName: 'TEEP v1.3',
+    displayName: 'TEEP v1.4',
     class: 'Visual',
     apiVersion: '5.1.0',
-    create: (options: VisualConstructorOptions) => {
+    create: (options?: VisualConstructorOptions) => {
         if (Visual) {
             return new Visual(options);
         }
         throw 'Visual instance not found';
     },
     createModalDialog: (dialogId: string, options: DialogConstructorOptions, initialState: object) => {
-        const dialogRegistry = globalThis.dialogRegistry;
+        const dialogRegistry = (<any>globalThis).dialogRegistry;
         if (dialogId in dialogRegistry) {
             new dialogRegistry[dialogId](options, initialState);
         }

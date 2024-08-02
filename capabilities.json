@@ -1,350 +1,375 @@
 {
-    "supportsEmptyDataView": true,
-    "privileges": [
-        {
-            "name": "ExportContent",
-            "essential": false
-        }
-    ],
-    "dataRoles": [
-        {
-            "displayName": "Start Date",
-            "name": "startDate",
-            "kind": "Grouping",
-            "description": "The column corresponding to your start date"
-        },
-        {
-            "displayName": "End Date",
-            "name": "endDate",
-            "kind": "Grouping",
-            "description": "The column corresponding to your end date"
-        },
-        {
-            "displayName": "Event Label",
-            "name": "label",
-            "kind": "Grouping",
-            "description": "The label you want to display on each event"
-        },
-        {
-            "displayName": "Grouping 1",
-            "name": "group1",
-            "kind": "Grouping",
-            "description": "Innermost column to group by (optional)"
-        },
-        {
-            "displayName": "Grouping 2",
-            "name": "group2",
-            "kind": "Grouping",
-            "description": "2nd column to group by (optional)"
-        },
-        {
-            "displayName": "Grouping 3",
-            "name": "group3",
-            "kind": "Grouping",
-            "description": "3rd column to group by (optional)"
-        },
-        {
-            "displayName": "Grouping 4",
-            "name": "group4",
-            "kind": "Grouping",
-            "description": "4th column to group by (optional)"
-        },
-        {
-            "displayName": "Grouping 5",
-            "name": "group5",
-            "kind": "Grouping",
-            "description": "5th column to group by (optional)"
-        },
-        {
-            "displayName": "Grouping 6",
-            "name": "group6",
-            "kind": "Grouping",
-            "description": "6th column to group by (optional)"
-        },
-        {
-            "name": "tooltip",
-            "displayName": "Description",
-            "displayNameKey": "Role_Tooltips",
-            "kind": "Grouping",
-            "description": "Add in an extra column for description to appear in tooltip"
-        }
-    ],
-    "dataViewMappings": [
-        {
-            "conditions": [
-                {
-                    "startDate": {
-                        "max": 1
-                    },
-                    "endDate": {
-                        "max": 1
-                    },
-                    "label": {
-                        "max": 1
-                    },
-                    "group1": {
-                        "max": 1
-                    },
-                    "group2": {
-                        "max": 1
-                    },
-                    "group3": {
-                        "max": 1
-                    },
-                    "group4": {
-                        "max": 1
-                    },
-                    "group5": {
-                        "max": 1
-                    },
-                    "group6": {
-                        "max": 1
-                    },
-                    "tooltip": {
-                        "max": 1
-                    }
-                }
-            ],
-            "table": {
-                "rows": {
-                    "select": [
-                        {
-                            "for": {
-                                "in": "group1"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "group2"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "group3"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "group4"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "group5"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "group6"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "tooltip"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "startDate"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "label"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "endDate"
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-    ],
-    "objects": {
-        "event": {
-            "properties": {
-                "eventFontColor": {
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "fontColorOverride": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "eventFontSize": {
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "eventTextRotation": {
-                    "type": {
-                        "enumeration": []
-                    }
-                },
-                "waterfall": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "paddingAmount": {
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "paddingType":{
-                    "type": {
-                        "enumeration": []
-                    }
-                }
-            }
-        },
-        "category": {
-            "properties": {
-                "categoryFontSize": {
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "categoryTextRotation": {
-                    "type": {
-                        "enumeration": []        
-                    }
-                }
-            }
-        },
-        "general": {
-            "properties": {
-                "markCurrentDay": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "colorScheme": {
-                    "type": {
-                        "enumeration": [
-                            {
-                                "value": "Greys",
-                                "displayName": "Greys",
-                                "displayNameKey": "color_scheme_Greys"
-                            },
-                            {
-                                "value": "Blues",
-                                "displayName": "Blues",
-                                "displayNameKey": "color_scheme_Blues"
-                            },
-                            {
-                                "value": "Greens",
-                                "displayName": "Greens",
-                                "displayNameKey": "color_scheme_Greens"
-                            },
-                            {
-                                "value": "Oranges",
-                                "displayName": "Oranges",
-                                "displayNameKey": "color_scheme_Oranges"
-                            },
-                            {
-                                "value": "Reds",
-                                "displayName": "Reds",
-                                "displayNameKey": "color_scheme_Reds"
-                            },
-                            {
-                                "value": "BuGn",
-                                "displayName": "BuGn",
-                                "displayNameKey": "color_scheme_BuGn"
-                            },
-                            {
-                                "value": "OrRd",
-                                "displayName": "OrRd",
-                                "displayNameKey": "color_scheme_OrRd"
-                            },
-                            {
-                                "value": "PuBu",
-                                "displayName": "PuBu",
-                                "displayNameKey": "color_scheme_PuBu"
-                            },
-                            {
-                                "value": "YlGnBu",
-                                "displayName": "YlGnBu",
-                                "displayNameKey": "color_scheme_YlGnBu"
-                            },
-                            {
-                                "value": "Cividis",
-                                "displayName": "Cividis",
-                                "displayNameKey": "color_scheme_Cividis"
-                            },
-                            {
-                                "value": "Viridis",
-                                "displayName": "Viridis",
-                                "displayNameKey": "color_scheme_Viridis"
-                            },
-                            {
-                                "value": "Inferno",
-                                "displayName": "Inferno",
-                                "displayNameKey": "color_scheme_Inferno"
-                            },
-                            {
-                                "value": "Magma",
-                                "displayName": "Magma",
-                                "displayNameKey": "color_scheme_Magma"
-                            },
-                            {
-                                "value": "Plasma",
-                                "displayName": "Plasma",
-                                "displayNameKey": "color_scheme_Plasma"
-                            },
-                            {
-                                "value": "Warm",
-                                "displayName": "Warm",
-                                "displayNameKey": "color_scheme_Warm"
-                            },
-                            {
-                                "value": "Cool",
-                                "displayName": "Cool",
-                                "displayNameKey": "color_scheme_Cool"
-                            },
-                            {
-                                "value": "CubehelixDefault",
-                                "displayName": "CubehelixDefault",
-                                "displayNameKey": "color_scheme_CubehelixDefault"
-                            },
-                            {
-                                "value": "Turbo",
-                                "displayName": "Turbo",
-                                "displayNameKey": "color_scheme_Turbo"
-                            },
-                            {
-                                "value": "BrBG",
-                                "displayName": "BrBG",
-                                "displayNameKey": "color_scheme_BrBG"
-                            },
-                            {
-                                "value": "Spectral",
-                                "displayName": "Spectral",
-                                "displayNameKey": "color_scheme_Spectral"
-                            },
-                            {
-                                "value": "Sinebow",
-                                "displayName": "Sinebow",
-                                "displayNameKey": "color_scheme_Sinebow"
-                            }
-                        ]
-                    }
-                },
-                "grayScale": {
-                    "type": {
-                        "bool": true
-                    }
-                }
-            }
-        }
+  "supportsEmptyDataView": true,
+  "privileges": [
+    {
+      "name": "ExportContent",
+      "essential": false
     }
+  ],
+  "dataRoles": [
+    {
+      "displayName": "Start Date",
+      "name": "startDate",
+      "kind": "Grouping",
+      "description": "The column corresponding to your start date"
+    },
+    {
+      "displayName": "End Date",
+      "name": "endDate",
+      "kind": "Grouping",
+      "description": "The column corresponding to your end date"
+    },
+    {
+      "displayName": "Event Label",
+      "name": "label",
+      "kind": "Grouping",
+      "description": "The label you want to display on each event"
+    },
+    {
+      "displayName": "Grouping 1",
+      "name": "group1",
+      "kind": "Grouping",
+      "description": "Innermost column to group by (optional)"
+    },
+    {
+      "displayName": "Grouping 2",
+      "name": "group2",
+      "kind": "Grouping",
+      "description": "2nd column to group by (optional)"
+    },
+    {
+      "displayName": "Grouping 3",
+      "name": "group3",
+      "kind": "Grouping",
+      "description": "3rd column to group by (optional)"
+    },
+    {
+      "displayName": "Grouping 4",
+      "name": "group4",
+      "kind": "Grouping",
+      "description": "4th column to group by (optional)"
+    },
+    {
+      "displayName": "Grouping 5",
+      "name": "group5",
+      "kind": "Grouping",
+      "description": "5th column to group by (optional)"
+    },
+    {
+      "displayName": "Grouping 6",
+      "name": "group6",
+      "kind": "Grouping",
+      "description": "6th column to group by (optional)"
+    },
+    {
+      "displayName": "Custom Color Field",
+      "name": "customColorField",
+      "kind": "Measure",
+      "description": "Column that contains custom color calculation (optional)"
+    },
+    {
+      "name": "tooltip",
+      "displayName": "Description",
+      "displayNameKey": "Role_Tooltips",
+      "kind": "Grouping",
+      "description": "Add in an extra column for description to appear in tooltip"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        {
+          "startDate": {
+            "max": 1
+          },
+          "endDate": {
+            "max": 1
+          },
+          "label": {
+            "max": 1
+          },
+          "group1": {
+            "max": 1
+          },
+          "group2": {
+            "max": 1
+          },
+          "group3": {
+            "max": 1
+          },
+          "group4": {
+            "max": 1
+          },
+          "group5": {
+            "max": 1
+          },
+          "group6": {
+            "max": 1
+          },
+          "tooltip": {
+            "max": 1
+          }
+        }
+      ],
+      "table": {
+        "rows": {
+          "select": [
+            {
+              "for": {
+                "in": "group1"
+              }
+            },
+            {
+              "for": {
+                "in": "group2"
+              }
+            },
+            {
+              "for": {
+                "in": "group3"
+              }
+            },
+            {
+              "for": {
+                "in": "group4"
+              }
+            },
+            {
+              "for": {
+                "in": "group5"
+              }
+            },
+            {
+              "for": {
+                "in": "group6"
+              }
+            },
+            {
+              "for": {
+                "in": "tooltip"
+              }
+            },
+            {
+              "for": {
+                "in": "startDate"
+              }
+            },
+            {
+              "for": {
+                "in": "label"
+              }
+            },
+            {
+              "for": {
+                "in": "endDate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "objects": {
+    "event": {
+      "properties": {
+        "eventFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+        "fontColorOverride": {
+          "type": {
+            "bool": true
+          }
+        },
+        "eventFontSize": {
+          "type": {
+            "numeric": true
+          }
+        },
+        "eventTextRotation": {
+          "type": {
+            "enumeration": []
+          }
+        },
+        "waterfall": {
+          "type": {
+            "bool": true
+          }
+        },
+        "paddingAmount": {
+          "type": {
+            "numeric": true
+          }
+        },
+        "paddingType": {
+          "type": {
+            "enumeration": []
+          }
+        },
+        "eventHeight": {
+          "type": {
+            "numeric": true
+          }
+        }
+      }
+    },
+    "category": {
+      "properties": {
+        "categoryFontSize": {
+          "type": {
+            "numeric": true
+          }
+        },
+        "categoryTextRotation": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+    "general": {
+      "properties": {
+        "markCurrentDay": {
+          "type": {
+            "bool": true
+          }
+        },
+        "colorScheme": {
+          "type": {
+            "enumeration": [
+              {
+                "value": "Greys",
+                "displayName": "Greys",
+                "displayNameKey": "color_scheme_Greys"
+              },
+              {
+                "value": "Blues",
+                "displayName": "Blues",
+                "displayNameKey": "color_scheme_Blues"
+              },
+              {
+                "value": "Greens",
+                "displayName": "Greens",
+                "displayNameKey": "color_scheme_Greens"
+              },
+              {
+                "value": "Oranges",
+                "displayName": "Oranges",
+                "displayNameKey": "color_scheme_Oranges"
+              },
+              {
+                "value": "Reds",
+                "displayName": "Reds",
+                "displayNameKey": "color_scheme_Reds"
+              },
+              {
+                "value": "BuGn",
+                "displayName": "BuGn",
+                "displayNameKey": "color_scheme_BuGn"
+              },
+              {
+                "value": "OrRd",
+                "displayName": "OrRd",
+                "displayNameKey": "color_scheme_OrRd"
+              },
+              {
+                "value": "PuBu",
+                "displayName": "PuBu",
+                "displayNameKey": "color_scheme_PuBu"
+              },
+              {
+                "value": "YlGnBu",
+                "displayName": "YlGnBu",
+                "displayNameKey": "color_scheme_YlGnBu"
+              },
+              {
+                "value": "Cividis",
+                "displayName": "Cividis",
+                "displayNameKey": "color_scheme_Cividis"
+              },
+              {
+                "value": "Viridis",
+                "displayName": "Viridis",
+                "displayNameKey": "color_scheme_Viridis"
+              },
+              {
+                "value": "Inferno",
+                "displayName": "Inferno",
+                "displayNameKey": "color_scheme_Inferno"
+              },
+              {
+                "value": "Magma",
+                "displayName": "Magma",
+                "displayNameKey": "color_scheme_Magma"
+              },
+              {
+                "value": "Plasma",
+                "displayName": "Plasma",
+                "displayNameKey": "color_scheme_Plasma"
+              },
+              {
+                "value": "Warm",
+                "displayName": "Warm",
+                "displayNameKey": "color_scheme_Warm"
+              },
+              {
+                "value": "Cool",
+                "displayName": "Cool",
+                "displayNameKey": "color_scheme_Cool"
+              },
+              {
+                "value": "CubehelixDefault",
+                "displayName": "CubehelixDefault",
+                "displayNameKey": "color_scheme_CubehelixDefault"
+              },
+              {
+                "value": "Turbo",
+                "displayName": "Turbo",
+                "displayNameKey": "color_scheme_Turbo"
+              },
+              {
+                "value": "BrBG",
+                "displayName": "BrBG",
+                "displayNameKey": "color_scheme_BrBG"
+              },
+              {
+                "value": "Spectral",
+                "displayName": "Spectral",
+                "displayNameKey": "color_scheme_Spectral"
+              },
+              {
+                "value": "Sinebow",
+                "displayName": "Sinebow",
+                "displayNameKey": "color_scheme_Sinebow"
+              }
+            ]
+          }
+        },
+        "grayScale": {
+          "type": {
+            "bool": true
+          }
+        },
+        "colorSchemeOverride": {
+          "type": {
+            "bool": true
+          }
+        },
+        "customColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

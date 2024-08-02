@@ -34,6 +34,12 @@ import powerbi from "powerbi-visuals-api";
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
+//attempting the custom color add
+import DataViewObjects = powerbi.DataViewObjects;
+import DataViewObjectPropertyIdentifier = powerbi.DataViewObjectPropertyIdentifier;
+import IColorPalette = powerbi.extensibility.IColorPalette;
+//import VisualEnumerationInstanceKinds = powerbi.VisualEnumerationInstanceKinds;
+//end color region
 // import EnumerateVisualObjectInstancesOptions = powerbi.EnumerateVisualObjectInstancesOptions;
 // import VisualObjectInstance = powerbi.VisualObjectInstance;
 // import DataView = powerbi.DataView;
@@ -43,9 +49,11 @@ import IVisualHost = powerbi.extensibility.IVisualHost;
 import { GanttChart } from "./ganttChart3"
 import { GeneralSettings, VisualSettingsModel } from "./settings";
 
-
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import { color } from "d3";
+import { ColorPicker, ContainerItem } from "powerbi-visuals-utils-formattingmodel/lib/FormattingSettingsComponents";
+import { ColorHelper, hexToRGBString } from "powerbi-visuals-utils-colorutils";
+import { toNumber } from "lodash";
 
 // import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
@@ -101,72 +109,78 @@ export class Visual implements IVisual {
     viewModel
     private visualSettings: VisualSettingsModel
     private formattingSettingsService: FormattingSettingsService;
-
+    private colorPalatte: IColorPalette;
 
     constructor(options: VisualConstructorOptions) {
         this.formattingSettingsService = new FormattingSettingsService();
-
         this.host = options.host
         this.svg = d3Select(options.element)
             .append('svg')
             .classed('ganttChart', true)
         this.gc = new GanttChart(1000, 700, 500, this.svg)
+        this.colorPalatte = options.host.colorPalette;
+        options.element.style.overflow = 'auto';
+        console.log('Visual Constructor', options)
     }
 
-    
     public update(options: VisualUpdateOptions) {
-
+        console.log('Visual Update', options)
+        const x: number = options.dataViews[0].table.rows.length; //the aim here is to be a setting for the calculation so the user can custom size the row
         const width: number = options.viewport.width;
-        const height: number = options.viewport.height;
+        const maxheight: number = x+50;  //this is a default and should now be user defined. 
         this.svg.attr("width", width);
-        this.svg.attr("height", height);
+        this.svg.attr("height", maxheight);
         if (!options || !options.dataViews || !options.dataViews[0]) {
             return;
         }
 
-        
         this.viewModel = visualTransform(options, this.host);
-
+        
         //clear existing plot
         this.svg.selectChildren().remove()
-
+        
         this.visualSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualSettingsModel, options.dataViews);
 
         const new_settings = this.convert_visual_settings()
 
         this.gc.update_settings(new_settings)
         this.gc.selected_category = undefined
-
-
-        this.gc.update_HW(height, width)
+        //acollins - 7/31/24: this line deployed to make the categorical heights work and scroll attractively
+        let event_height = x * toNumber(this.visualSettings.event.eventHeight.value);
+        //acollins - 7/31/24: this line deployed to re-do the height so that the svg is correct.  May need some tweaking later
+        this.svg.attr("height", event_height+50)
+       
+        this.gc.update_HW(event_height, width)
         this.gc.update_col_display_names(this.viewModel.col_display_names)
         this.gc.update_internal_col_names(this.viewModel.col_names_internal)
 
         this.gc.update_events(this.viewModel.events)
         this.gc.update_groupings(this.viewModel.groupings)
-
+        
         this.gc.draw_chart()
+       
     }
-
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
         return this.formattingSettingsService.buildFormattingModel(this.visualSettings);
     }
 
-    public convert_visual_settings(){
+    public convert_visual_settings() {
+
         const catetgory_settings = this.visualSettings.category
         const event_settings = this.visualSettings.event
         const general_settings = this.visualSettings.general
         let color_scale = general_settings.colorScheme.value.value
-        if(general_settings.grayScale.value){ //maybe cut later we will see
+               if (general_settings.grayScale.value)
+        { //maybe cut later we will see
             color_scale = "Greys"
         }
-
+        //8/2/24 - acollins: for some reason just calling general_settings was REFUSING to set the color properly.  This line fixes it
+        let customColor2 = this.visualSettings.general.customColor.value.value
+        let _colorSchemeOverride = general_settings.colorSchemeOverride.value
         const padding_amount_val = Math.max(0, this.visualSettings.event.paddingAmount.value)
         const padding_type_val = parseInt(String(this.visualSettings.event.paddingType.value.value))
-
-
-
+       
         return {
             label_column: "label",
             start_column: "startDate",
@@ -181,7 +195,10 @@ export class Visual implements IVisual {
             waterfall: event_settings.waterfall.value,
             mark_today: general_settings.markCurrentDay.value,
             color_scale: color_scale,
-            padding_amount: padding_amount_val * padding_type_val
+            padding_amount: padding_amount_val * padding_type_val,
+            customColor: customColor2, //8/2/24 - acollins: setting the actual setting inside so gantt chart can use it. 
+            colorSchemeOverride: _colorSchemeOverride,
+            event_height: event_settings.eventHeight.value
         }
     }
 }

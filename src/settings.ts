@@ -28,278 +28,311 @@
 
 import { formattingSettings } from "powerbi-visuals-utils-formattingmodel";
 import { dataViewObjectsParser } from "powerbi-visuals-utils-dataviewutils";
+import { ColorHelper, hexToRGBString, parseColorString } from "powerbi-visuals-utils-colorutils";
 import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 import FormattingSettingsCard = formattingSettings.Card;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
+import { color } from "d3";
 
 
 export class VisualSettingsModel extends FormattingSettingsModel {
-  public event: EventSettings = new EventSettings();
-  public category: CategorySettings = new CategorySettings();
-  public general: GeneralSettings = new GeneralSettings();
-  public cards: FormattingSettingsCard[] = [this.event, this.category, this.general];
+    public event: EventSettings = new EventSettings();
+    public category: CategorySettings = new CategorySettings();
+    public general: GeneralSettings = new GeneralSettings();
+    public cards: FormattingSettingsCard[] = [this.event, this.category, this.general];
+
 }
 
 
-export class EventSettings extends FormattingSettingsCard{
-  public eventFontColor = new formattingSettings.ColorPicker({
-    name: "eventFontColor",
-    displayName: "Font Color",
-    value: {value:"#ffffff"}
-  });
+export class EventSettings extends FormattingSettingsCard {
+    public eventFontColor = new formattingSettings.ColorPicker({
+        name: "eventFontColor",
+        displayName: "Font Color",
+        value: { value: "#ffffff" }
+    })
 
-  public fontColorOverride = new formattingSettings.ToggleSwitch({
-    name: "fontColorOverride",
-    displayName: "Override Font Color",
-    value: false
-  })
-  
-  public eventFontSize = new formattingSettings.NumUpDown({
-    name: "eventFontSize",
-    displayName: "Font Size",
-    value: 7
-  });
+    public fontColorOverride = new formattingSettings.ToggleSwitch({
+        name: "fontColorOverride",
+        displayName: "Override Font Color",
+        value: false
+    })
+
+    public eventFontSize = new formattingSettings.NumUpDown({
+        name: "eventFontSize",
+        displayName: "Font Size",
+        value: 7
+    })
 
 
-  public eventTextRotation = new formattingSettings.ItemDropdown({
-    name: "eventTextRotation",
-    displayName: "Text Rotation",
-    value:       {
-      "value": "0",
-      "displayName": "Normal",
-    },
-    items: [
-      {
-          "value": "0",
-          "displayName": "Normal"
-      },
-      {
-          "value": "90",
-          "displayName": "Clockwise"
-      },
-      {
-          "value": "-90",
-          "displayName": "Counter-Clockwise"
-      },
-      {
-          "value": "180",
-          "displayName": "Flipped"
-      }
-    ]       
-  })
-  
-  public waterfall = new formattingSettings.ToggleSwitch({
-    name: "waterfall",
-    displayName: "Waterfall Mode",
-    value: false
-  })
+    public eventTextRotation = new formattingSettings.ItemDropdown({
+        name: "eventTextRotation",
+        displayName: "Text Rotation",
+        value: {
+            "value": "0",
+            "displayName": "Normal",
+        },
+        items: [
+            {
+                "value": "0",
+                "displayName": "Normal"
+            },
+            {
+                "value": "90",
+                "displayName": "Clockwise"
+            },
+            {
+                "value": "-90",
+                "displayName": "Counter-Clockwise"
+            },
+            {
+                "value": "180",
+                "displayName": "Flipped"
+            }
+        ]
+    })
 
-  public paddingType = new formattingSettings.ItemDropdown({
-    name: "paddingType",
-    displayName: "Padding Type",
-    value: {
-      "value": "1",
-      "displayName": "Days"
-    },
-    items:[
-      {
-          "value": "1",
-          "displayName": "Days"
-      },
-      {
-          "value": "7",
-          "displayName": "Weeks"
-      },
-      {
-          "value": "30",
-          "displayName": "Months"
-      },
-      {
-          "value": "365",
-          "displayName": "Years"
-      }
-    ]
-  })
+    public waterfall = new formattingSettings.ToggleSwitch({
+        name: "waterfall",
+        displayName: "Waterfall Mode",
+        value: false
+    })
 
-  public paddingAmount = new formattingSettings.NumUpDown({
-    name: "paddingAmount",
-    displayName: "Padding Amount",
-    value: 0
-  })
-  
+    public paddingType = new formattingSettings.ItemDropdown({
+        name: "paddingType",
+        displayName: "Padding Type",
+        value: {
+            "value": "1",
+            "displayName": "Days"
+        },
+        items: [
+            {
+                "value": "1",
+                "displayName": "Days"
+            },
+            {
+                "value": "7",
+                "displayName": "Weeks"
+            },
+            {
+                "value": "30",
+                "displayName": "Months"
+            },
+            {
+                "value": "365",
+                "displayName": "Years"
+            }
+        ]
+    })
 
-  public name: string = "event";
+    public paddingAmount = new formattingSettings.NumUpDown({
+        name: "paddingAmount",
+        displayName: "Padding Amount",
+        value: 0
+    })
+    public eventHeight = new formattingSettings.NumUpDown({
+        name: "eventHeight",
+        displayName: "Event Height",
+        value: 20,
+        options:{
+            minValue:{type: powerbi.visuals.ValidatorType.Min,
+                value:20,
+            },
+            maxValue:{type: powerbi.visuals.ValidatorType.Max,
+                value:100,
+            },
+        }
+    });
+
+    public name: string = "event";
     public displayName: string = "Event Settings";
     public slices: FormattingSettingsSlice[] = [
-      this.eventFontColor, 
-      this.fontColorOverride,
-      this.eventFontSize, 
-      this.eventTextRotation,
-      this.waterfall,
-      this.paddingType,
-      this.paddingAmount
+        this.eventFontColor,
+        this.fontColorOverride,
+        this.eventFontSize,
+        this.eventTextRotation,
+        this.waterfall,
+        this.paddingType,
+        this.paddingAmount,
+        this.eventHeight
     ]
 }
 
-export class CategorySettings extends FormattingSettingsCard{
+export class CategorySettings extends FormattingSettingsCard {
 
-  public categoryFontSize = new formattingSettings.NumUpDown({
-    name: "categoryFontSize",
-    displayName: "Font Size",
-    value: 13
-  });
+    public categoryFontSize = new formattingSettings.NumUpDown({
+        name: "categoryFontSize",
+        displayName: "Font Size",
+        value: 13
+    });
 
 
 
-  public categoryTextRotation = new formattingSettings.ItemDropdown({
-    name: "categoryTextRotation",
-    displayName: "Text Rotation",
-    value:       {
-      "value": "0",
-      "displayName": "Normal",
-    },
-    items: [
-      {
-          "value": "0",
-          "displayName": "Normal"
-      },
-      {
-          "value": "90",
-          "displayName": "Clockwise"
-      },
-      {
-          "value": "-90",
-          "displayName": "Counter-Clockwise"
-      },
-      {
-          "value": "180",
-          "displayName": "Flipped"
-      }
-  ]       
-  })
-  
-  
-  public name: string = "category";
+    public categoryTextRotation = new formattingSettings.ItemDropdown({
+        name: "categoryTextRotation",
+        displayName: "Text Rotation",
+        value: {
+            "value": "0",
+            "displayName": "Normal",
+        },
+        items: [
+            {
+                "value": "0",
+                "displayName": "Normal"
+            },
+            {
+                "value": "90",
+                "displayName": "Clockwise"
+            },
+            {
+                "value": "-90",
+                "displayName": "Counter-Clockwise"
+            },
+            {
+                "value": "180",
+                "displayName": "Flipped"
+            }
+        ]
+    })
+
+
+    public name: string = "category";
     public displayName: string = "Category Settings";
     public slices: FormattingSettingsSlice[] = [
-      this.categoryFontSize, 
-      this.categoryTextRotation
+        this.categoryFontSize,
+        this.categoryTextRotation
     ]
 }
 
-export class GeneralSettings extends FormattingSettingsCard{
-  public markCurrentDay = new formattingSettings.ToggleSwitch({
-    name: "markCurrentDay",
-    displayName: "Mark Current Day",
-    value: true
-  })
-  
-  public colorScheme = new formattingSettings.ItemDropdown({
-    displayName: "Color Scheme",
-    items: [
-      {
-          "value": "Greys",
-          "displayName": "Greys",
-      },
-      {
-          "value": "Blues",
-          "displayName": "Blues",
-      },
-      {
-          "value": "Greens",
-          "displayName": "Greens",
-      },
-      {
-          "value": "Oranges",
-          "displayName": "Oranges",
-      },
-      {
-          "value": "Reds",
-          "displayName": "Reds",
-      },
-      {
-          "value": "BuGn",
-          "displayName": "BuGn",
-      },
-      {
-          "value": "OrRd",
-          "displayName": "OrRd",
-      },
-      {
-          "value": "PuBu",
-          "displayName": "PuBu",
-      },
-      {
-          "value": "YlGnBu",
-          "displayName": "YlGnBu",
-      },
-      {
-          "value": "Cividis",
-          "displayName": "Cividis",
-      },
-      {
-          "value": "Viridis",
-          "displayName": "Viridis",
-      },
-      {
-          "value": "Inferno",
-          "displayName": "Inferno",
-      },
-      {
-          "value": "Magma",
-          "displayName": "Magma",
-      },
-      {
-          "value": "Plasma",
-          "displayName": "Plasma",
-      },
-      {
-          "value": "Warm",
-          "displayName": "Warm",
-      },
-      {
-          "value": "Cool",
-          "displayName": "Cool",
-      },
-      {
-          "value": "CubehelixDefault",
-          "displayName": "CubehelixDefault",
-      },
-      {
-          "value": "Turbo",
-          "displayName": "Turbo",
-      },
-      {
-          "value": "BrBG",
-          "displayName": "BrBG",
-      },
-      {
-          "value": "Spectral",
-          "displayName": "Spectral",
-      },
-      {
-          "value": "Sinebow",
-          "displayName": "Sinebow",
-      }
-  ],
-    name: "colorScheme",
-    value: {value: "Greens",
-            displayName: "Greens"}
-  })
+export class GeneralSettings extends FormattingSettingsCard {
+    public markCurrentDay = new formattingSettings.ToggleSwitch({
+        name: "markCurrentDay",
+        displayName: "Mark Current Day",
+        value: true
+    })
 
-  public grayScale = new formattingSettings.ToggleSwitch({
-    name: "grayScale",
-    displayName: "Grayscale",
-    value: true
-  })
+    public colorScheme = new formattingSettings.ItemDropdown({
+        displayName: "Color Scheme",
+        items: [
+            {
+                "value": "NONE",
+                "displayName": "NONE",
+            },
+            {
+                "value": "Greys",
+                "displayName": "Greys",
+            },
+            {
+                "value": "Blues",
+                "displayName": "Blues",
+            },
+            {
+                "value": "Greens",
+                "displayName": "Greens",
+            },
+            {
+                "value": "Oranges",
+                "displayName": "Oranges",
+            },
+            {
+                "value": "Reds",
+                "displayName": "Reds",
+            },
+            {
+                "value": "BuGn",
+                "displayName": "BuGn",
+            },
+            {
+                "value": "OrRd",
+                "displayName": "OrRd",
+            },
+            {
+                "value": "PuBu",
+                "displayName": "PuBu",
+            },
+            {
+                "value": "YlGnBu",
+                "displayName": "YlGnBu",
+            },
+            {
+                "value": "Cividis",
+                "displayName": "Cividis",
+            },
+            {
+                "value": "Viridis",
+                "displayName": "Viridis",
+            },
+            {
+                "value": "Inferno",
+                "displayName": "Inferno",
+            },
+            {
+                "value": "Magma",
+                "displayName": "Magma",
+            },
+            {
+                "value": "Plasma",
+                "displayName": "Plasma",
+            },
+            {
+                "value": "Warm",
+                "displayName": "Warm",
+            },
+            {
+                "value": "Cool",
+                "displayName": "Cool",
+            },
+            {
+                "value": "CubehelixDefault",
+                "displayName": "CubehelixDefault",
+            },
+            {
+                "value": "Turbo",
+                "displayName": "Turbo",
+            },
+            {
+                "value": "BrBG",
+                "displayName": "BrBG",
+            },
+            {
+                "value": "Spectral",
+                "displayName": "Spectral",
+            },
+            {
+                "value": "Sinebow",
+                "displayName": "Sinebow",
+            }
+        ],
+        name: "colorScheme",
+        value: {
+            value: "Greens",
+            displayName: "Greens"
+        }
+    })
 
-  public name: string = "general";
+    public grayScale = new formattingSettings.ToggleSwitch({
+        name: "grayScale",
+        displayName: "Grayscale",
+        value: false
+    })
+    public colorSchemeOverride = new formattingSettings.ToggleSwitch({
+        name: "colorSchemeOverride",
+        displayName: "Override Color Scheme",
+        value: false
+    })
+    public customColor = new formattingSettings.ColorPicker({
+        name: "customColor",
+        displayName: "Custom Bar Color",
+        value: { value: "#ffffff" }//"#ffffff" }
+    })
+
+    public name: string = "general";
     public displayName: string = "Visual Settings";
     public slices: FormattingSettingsSlice[] = [
-      this.markCurrentDay,
-      this.colorScheme,
-      this.grayScale
+        this.markCurrentDay,
+        this.colorScheme,
+        this.grayScale,
+        this.colorSchemeOverride,
+        this.customColor
     ]
-
 }
